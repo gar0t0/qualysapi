@@ -70,7 +70,7 @@ jobs:
         parallel-ssh -t 300 -H $SSH_USER@$SSH_SERVER -i -x "-i /tmp/server.key -o StrictHostKeyChecking=no" \
           'git clone https://github.com/0xtiago/NodeGoat 2>&1; sleep 15'
         parallel-ssh -t 300 -H $SSH_USER@$SSH_SERVER -i -x "-i /tmp/server.key -o StrictHostKeyChecking=no" "cd NodeGoat && docker-compose build"
-      parallel-ssh -t 300 -H $SSH_USER@$SSH_SERVER -i -x "-i /tmp/server.key -o StrictHostKeyChecking=no" "docker images| egrep -v "IMAGE"| grep -v "juice"| awk '{print \$3}'| while read line ; do trivy image \$line --severity CRITICAL,HIGH 2>/dev/null | grep 'Total: '| awk '{if(\$2==0) print \"OK\"; else print \"Vulneravel\"}'| uniq; done > /tmp/container" 
+        parallel-ssh -t 300 -H $SSH_USER@$SSH_SERVER -i -x "-i /tmp/server.key -o StrictHostKeyChecking=no" "docker images| egrep -v "IMAGE"| grep -v "juice"| awk '{print \$3}'| while read line ; do trivy image \$line --severity CRITICAL,HIGH 2>/dev/null | grep 'Total: '| awk '{if(\$2==0) print \"OK\"; else print \"Vulneravel\"}'| uniq; done > /tmp/container" 
         parallel-ssh -t 300 -H $SSH_USER@$SSH_SERVER -i -x "-i /tmp/server.key -o StrictHostKeyChecking=no" "cat /tmp/container| grep OK || exit 1 && docker-compose up -d ; sleep 60"
 
        
