@@ -2,10 +2,10 @@ name: 🐞 Vulnerable Node Workflow (Qualys).
 on:
   push:
     branches:
-      - main
+      - '**' 
   pull_request:
     types: [opened, synchronize, reopened]
-  workflow_dispatch:
+  workflow_dispatch: # Teste
 
 jobs:
   build:
